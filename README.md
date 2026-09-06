@@ -1,94 +1,147 @@
 # BloodLink – Blood Donor Eligibility & Matching System
 
-BloodLink is a C++ console-based Blood Donor Eligibility and Matching System designed to help manage donor information, blood requests, donor eligibility, and matching donors with blood requirements.
+## Project Overview
 
-The project demonstrates the use of Object-Oriented Programming (OOP), STL, file handling, and exception handling in C++.
+BloodLink is a **C++ console-based blood donor management and matching system**. It helps find suitable blood donors when a person needs blood.
+
+The system stores donor information such as name, phone number, date of birth, blood group, area, weight, and last donation date. When a blood request is created, BloodLink checks blood-group compatibility and donor eligibility before displaying suitable donors.
+
+The project was built to solve the problem of manually checking multiple donor records and to apply important C++ concepts to a practical real-world problem.
 
 ## Features
 
 * Register new blood donors
-* Store donor information using file handling
-* View registered donors
+* Store donor details
+* View all registered donors
 * Create blood requests
-* Find suitable donors based on blood group
-* Check donor eligibility based on donation history
-* Consider donor location/locality during matching
-* View previous blood requests
+* Automatically generate request IDs
+* Check blood-group compatibility
+* Check donor eligibility
+* Age validation
+* Minimum weight validation
+* 56-day donation-gap validation
+* Find compatible and eligible donors
+* Sort matching donors
+* View blood request history
+* Save donor data using file handling
+* Save request history using file handling
+* Validate user input
 * Handle invalid input using exception handling
-* Maintain donor and request data using text files
+* Load previously saved donor and request data when the program starts
 
 ## Technologies Used
 
 * **Language:** C++
-* **Concepts:** OOP, STL, File Handling, Exception Handling
+* **Concepts:** Object-Oriented Programming (OOP)
+* **STL:** `vector`, `unordered_map`, `sort`
+* **File Handling:** `ifstream`, `ofstream`
+* **Exception Handling:** `try`, `catch`, `throw`
 * **Data Storage:** Text files
-* **Development Environment:** Visual Studio Code
 
 ## How It Works
 
-The system provides a menu-driven console interface.
-
-1. Donors can be registered in the system.
-2. Donor information is stored in `data/donors.txt`.
-3. A user can create a blood request by providing the required blood group and other details.
-4. The system searches the donor records.
-5. Donors are filtered according to blood-group compatibility and eligibility.
-6. Suitable donors are displayed to the user.
-7. Blood request information is stored in `data/requests.txt`.
-
-## Project Structure
+The system follows a simple process:
 
 ```text
-BloodLink/
-│
-├── main.cpp
-├── README.md
-├── .gitignore
-│
-└── data/
-    ├── donors.txt
-    └── requests.txt
+Register Donor
+      ↓
+Validate Donor Information
+      ↓
+Save Donor Information
+      ↓
+Create Blood Request
+      ↓
+Generate Request ID
+      ↓
+Check Blood Group Compatibility
+      ↓
+Check Donor Eligibility
+      ↓
+Find Matching Donors
+      ↓
+Sort Matching Donors
+      ↓
+Display Suitable Donors
+      ↓
+Save Request History
 ```
 
+### 1. Donor Registration
 
-## Sample Output
+The user can register a donor by entering:
+
+* Name
+* Phone number
+* Date of birth
+* Blood group
+* Area
+* Weight
+* Last donation date
+
+The system validates the entered information and stores the donor record.
+
+### 2. Blood Request
+
+A requester can create a blood request by entering:
+
+* Requester name
+* Required blood group
+* Required units
+* Urgency
+* Area
+
+The system automatically generates a unique request ID.
+
+### 3. Blood Compatibility
+
+BloodLink uses an `unordered_map` to store blood-group compatibility rules.
+
+For example:
 
 ```text
-========================================
-              BLOODLINK
-========================================
-
-1. Register Donor
-2. View Donors
-3. Create Blood Request
-4. Find Matching Donors
-5. View Request History
-6. Exit
-
-Enter your choice:
+B+ → O-, O+, B-, B+
+O- → O-
 ```
 
-### Example: Finding Matching Donors
+When a blood request is created, the system looks up the required blood group and gets the compatible donor blood groups.
+
+### 4. Donor Eligibility
+
+After checking compatibility, the system checks whether the donor is eligible.
+
+The current implementation checks:
+
+* Age between 18 and 65 years
+* Weight of at least 50 kg
+* At least 56 days since the last donation
+
+If a donor fails any of these checks, the donor is not included in the matching results.
+
+### 5. Matching Donors
+
+The system goes through the registered donors one by one.
 
 ```text
-Enter required blood group: O+
-
-Searching for matching donors...
-
-Matching Donors:
-----------------------------------------
-Name       : Rahul
-Blood Group: O+
-Location   : Pune
-Eligible   : Yes
-----------------------------------------
-
-Matching donor found successfully.
+Donor
+  ↓
+Blood group compatible?
+  ↓
+Yes
+  ↓
+Eligibility checks
+  ↓
+Eligible?
+  ↓
+Yes
+  ↓
+Add to matching list
 ```
 
-## Data Storage
+After checking all donors, the suitable donors are sorted and displayed.
 
-BloodLink uses text files for persistent storage.
+### 6. File Handling
+
+BloodLink uses text files to maintain data between program executions.
 
 ```text
 data/
@@ -96,33 +149,72 @@ data/
 └── requests.txt
 ```
 
-This allows donor and request information to remain available even after the application is closed.
+Donor information is saved in `donors.txt`, while blood request history is saved in `requests.txt`.
 
-## Key C++ Concepts Demonstrated
+When the program starts, previously stored information can be loaded from these files.
+
+### 7. Input Validation and Exception Handling
+
+The system validates user input such as:
+
+* Blood group
+* Date format
+* Weight
+* Number of units
+* Urgency
+
+Invalid data is handled using validation and exception handling so that incorrect input does not unnecessarily terminate the program.
+
+## Project Structure
+
+```text
+BloodLink/
+│
+├── main.cpp
+│
+├── data/
+│   ├── donors.txt
+│   └── requests.txt
+│
+└── README.md
+```
+
+
+## Main Menu
+
+```text
+=====================================
+          BLOODLINK SYSTEM
+=====================================
+1. Register Donor
+2. View Donors
+3. Create Blood Request & Find Donors
+4. View Request History
+5. Exit
+
+Enter your choice:
+```
+
+
+## C++ Concepts Demonstrated
+
+This project demonstrates practical use of:
 
 * Classes and Objects
+* Inheritance
 * Encapsulation
 * Constructors
-* STL Containers
-* Vectors
+* Member Functions
+* STL `vector`
+* STL `unordered_map`
+* STL `sort`
+* Loops and Conditional Statements
+* String Handling
+* Date Validation
 * File Input/Output
 * Exception Handling
-* String Processing
-* Conditional Logic
-* Functions
-* Menu-driven Programming
+* Input Validation
 
-## Future Improvements
+## Objective
 
-* Database integration using MySQL
-* GUI or web-based interface
-* Advanced location-based matching
-* Email/SMS notifications for donors
-* Admin authentication
-* Online donor registration
-
-## Author
-
-**Vedant Shelke**
-
-B.Tech Computer Science Engineering
+The main objective of BloodLink is to provide a simple system that can **store donor information, process blood requests, check compatibility and eligibility, and display suitable donors** while demonstrating practical C++ programming and OOP concepts.
